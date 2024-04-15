@@ -1,2 +1,2 @@
-# tpa
-tpa
+# TPA - Atividades práticas
+Autor: Petar Veljovic
