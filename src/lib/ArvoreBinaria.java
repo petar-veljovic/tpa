@@ -1,12 +1,11 @@
 package lib;
 
 import app.Aluno;
+import app.Disciplina;
 
+import java.io.BufferedWriter;
+import java.io.IOException;
 import java.util.*;
-import java.util.Stack;
-import java.util.Queue;
-import java.util.LinkedList;
-import java.util.Comparator;
 
 
 /**
@@ -14,7 +13,8 @@ import java.util.Comparator;
  *
  * Implementação da Arvore Binaria
  */
-public class ArvoreBinaria <T extends Comparable<T>> implements IArvoreBinaria<T>
+public class ArvoreBinaria <T extends Comparable<T>>
+        implements IArvoreBinaria<T>
 {
     private No<T>           raiz;
     private Comparator<T>   comparator;
@@ -36,9 +36,10 @@ public class ArvoreBinaria <T extends Comparable<T>> implements IArvoreBinaria<T
     @Override
     public T pesquisar(T valor, Comparator comparator)    {     return buscaElementoComparator(valor, comparator);    }
     @Override
-    public String caminharEmOrdem()                       {     return mostraEmOrdem();         }
+    public String caminharEmOrdem(String NomeObjeto)      {     return mostraEmOrdem(NomeObjeto);         }
     @Override
-    public String caminharEmNivel()                       {     return mostraEmNivel();         }
+    public String caminharEmNivel(String NomeObjeto)                       {     return mostraEmNivel(NomeObjeto);         }
+
     @Override
     public int altura()                                   {     return altura(raiz);            }
     @Override
@@ -129,7 +130,9 @@ public class ArvoreBinaria <T extends Comparable<T>> implements IArvoreBinaria<T
      * Este método tem como objetivo remover um elemento da árvore
      *
      */
-    private T remova(No<T> nos, T alvo)
+    //método para remover um elemento da árvore
+
+    public T remova(No<T> nos, T alvo)
     {
         No<T> pai = null;
 
@@ -191,6 +194,9 @@ public class ArvoreBinaria <T extends Comparable<T>> implements IArvoreBinaria<T
                 else                                                                                  {   maiorNoPai.setEsquerdo(maiorNo.getEsquerdo());    }
             }
         }
+
+        System.gc();
+
         // Retorna o nó removido
         return removido;
     }
@@ -199,7 +205,7 @@ public class ArvoreBinaria <T extends Comparable<T>> implements IArvoreBinaria<T
      * Este método tem como objetivo buscar um elemento na árvore
      *
      */
-    private T buscaElemento(T alvo)
+    public T buscaElemento(T alvo)
     {
         No<T> atual = raiz;
         //int qntnoslidos = 0;
@@ -275,10 +281,10 @@ public class ArvoreBinaria <T extends Comparable<T>> implements IArvoreBinaria<T
      * Este método tem como objetivo percorrer a arvore em ordem
      *
      */
-    private String mostraEmOrdem()
+    private String mostraEmOrdem(String NomeObjeto)
     {
         No<T> nos = raiz;
-        String delt = "\n ";//"\n";
+        String delt = "\n";//"\n";
         String retornoOrdem = "";
 
         if (nos == null)
@@ -288,7 +294,7 @@ public class ArvoreBinaria <T extends Comparable<T>> implements IArvoreBinaria<T
         }
         // Cria uma pilha
         Stack<No<T>> pilha = new Stack<No<T>>();
-        retornoOrdem +="[";
+        //retornoOrdem +="[";
         // Verifique até que a arvore termine ou a pilha fique vazia
         for (;((nos != null) || (!pilha.isEmpty()));)
         {
@@ -302,23 +308,34 @@ public class ArvoreBinaria <T extends Comparable<T>> implements IArvoreBinaria<T
             // Busca o valor no topo da pilha e retira
             nos = pilha.pop();
 
-            Aluno aluno = (Aluno)nos.getValor();
-
-            //retornoOrdem = retornoOrdem + (nos.getValor() +delt;
-            retornoOrdem = retornoOrdem + delt;
-            //retornoOrdem = retornoOrdem + "(";
-            //retornoOrdem = retornoOrdem + delt;
-            retornoOrdem = retornoOrdem + aluno.getMatricula();
-            retornoOrdem = retornoOrdem + delt;
-            retornoOrdem = retornoOrdem + aluno.getNome();
-            //retornoOrdem = retornoOrdem + delt;
-            //retornoOrdem = retornoOrdem + ")";
-            retornoOrdem = retornoOrdem + delt;
+            if (Objects.equals(NomeObjeto, "Aluno")) {
+                Aluno aluno = (Aluno) nos.getValor();
+                retornoOrdem += "[Aluno; Matricula=";
+                retornoOrdem = retornoOrdem + aluno.getMatricula();
+                retornoOrdem += "; Nome=";
+                retornoOrdem = retornoOrdem + "'"+ aluno.getNome()+"'";
+                retornoOrdem += "; CursosCursados=";
+                retornoOrdem = retornoOrdem + "'"+ aluno.getCursoCursado() + "'";
+                retornoOrdem += "]";
+                retornoOrdem = retornoOrdem + delt;
+            }
+            if (Objects.equals(NomeObjeto, "Disciplina"))
+            {
+                Disciplina disciplina = (Disciplina) nos.getValor();
+                retornoOrdem += "[Disciplina; Matricula=";
+                retornoOrdem = retornoOrdem + disciplina.getMatricula();
+                retornoOrdem += "; Nome=";
+                retornoOrdem = retornoOrdem + "'"+disciplina.getNome()+"'";
+                retornoOrdem += "; PreRequisito=";
+                retornoOrdem = retornoOrdem +"'"+ disciplina.getPreRequisito()+"'";
+                retornoOrdem += "; CargaHoraria=";
+                retornoOrdem = retornoOrdem +disciplina.getCargaHoraria();
+                retornoOrdem += "]";
+                retornoOrdem = retornoOrdem + delt;
+            }
 
             nos = nos.getDireito();
         }
-        retornoOrdem +="]";
-        //retornoOrdem = retornoOrdem.replace("), ]", ")]");
         return retornoOrdem;
     }
 
@@ -326,10 +343,10 @@ public class ArvoreBinaria <T extends Comparable<T>> implements IArvoreBinaria<T
      * Este método tem como objetivo percorrer a arvore em nivel
      *
      */
-    private String mostraEmNivel()
+    private String mostraEmNivel(String NomeObjeto)
     {
         No<T> nos = raiz;
-        String delt = "\n ";
+        String delt = "\n";
         // Cria uma Lista Linkada
         LinkedList<No<T>> lista = new LinkedList<>();
         // Adiciona na lista
@@ -340,28 +357,42 @@ public class ArvoreBinaria <T extends Comparable<T>> implements IArvoreBinaria<T
         // Verifica se a arvore é vazia, se for, retorne que não existe
         if (nos == null)
         {
-            retornoNivel = "[\n]";
+            retornoNivel = "";
             return retornoNivel;
         }
 
         // Execute até que a lista fique vazia
-        retornoNivel += "[";
+        //retornoNivel += "[";
         for (;!(lista.isEmpty());)
         {
             // Pega o primeiro elemento da lista
             No<T>           lido = lista.getFirst();
-            Aluno           aluno = (Aluno)lido.getValor();
+            if (Objects.equals(NomeObjeto, "Aluno")) {
+                Aluno aluno = (Aluno) nos.getValor();
+                retornoNivel += "[Aluno; Matricula=";
+                retornoNivel = retornoNivel + aluno.getMatricula();
+                retornoNivel += "; Nome=";
+                retornoNivel = retornoNivel + "'"+ aluno.getNome()+"'";
+                retornoNivel += "; CursosCursados=";
+                retornoNivel = retornoNivel + "'"+aluno.getCursoCursado()+"'";
+                retornoNivel += "]";
+                retornoNivel = retornoNivel + delt;
+            }
+            if (Objects.equals(NomeObjeto, "Disciplina"))
+            {
+                Disciplina disciplina = (Disciplina) nos.getValor();
 
-            //retornoNivel += lido.getValor() + delt;
-            retornoNivel = retornoNivel + delt;
-            //retornoNivel = retornoNivel + "(";
-            //retornoNivel = retornoNivel + delt;
-            retornoNivel = retornoNivel + aluno.getMatricula();
-            retornoNivel = retornoNivel + delt;
-            retornoNivel = retornoNivel + aluno.getNome();
-            //retornoNivel = retornoNivel + delt;
-            //retornoNivel = retornoNivel + ")";
-            retornoNivel = retornoNivel + delt;
+                retornoNivel += "[Disciplina; Matricula=";
+                retornoNivel = retornoNivel + disciplina.getMatricula();
+                retornoNivel += "; Nome=";
+                retornoNivel = retornoNivel + "'"+disciplina.getNome()+"'";
+                retornoNivel += "; PreRequisito=";
+                retornoNivel = retornoNivel +"'"+ disciplina.getPreRequisito()+"'";
+                retornoNivel += "; CargaHoraria=";
+                retornoNivel = retornoNivel +disciplina.getCargaHoraria();
+                retornoNivel += "]";
+                retornoNivel = retornoNivel + delt;
+            }
 
 
             // Pega o primeiro elemento da lista e o remove
@@ -370,7 +401,7 @@ public class ArvoreBinaria <T extends Comparable<T>> implements IArvoreBinaria<T
             if(lido.getEsquerdo() != null)  { lista.add(lido.getEsquerdo());  }
             if(lido.getDireito() != null)   { lista.add(lido.getDireito());   }
         }
-        retornoNivel += "]";
+        //retornoNivel += "]";
         //retornoNivel = retornoNivel.replace("), ]", ")]");
         return retornoNivel;
     }
@@ -467,5 +498,17 @@ public class ArvoreBinaria <T extends Comparable<T>> implements IArvoreBinaria<T
         for (;nos.getDireito() != null;)     {  nos = nos.getDireito(); }
         // Retorna o maior nó
         return nos;
+    }
+
+
+    public void geraArquivoOrdem(String NomeObjeto,ArvoreBinaria<T> nos,BufferedWriter bw) throws IOException {
+        if(nos != null){
+            String texto ="";
+
+            texto = nos.caminharEmOrdem(NomeObjeto);
+
+            bw.write(texto);
+
+        }
     }
 }

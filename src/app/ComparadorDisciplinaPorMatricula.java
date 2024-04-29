@@ -8,10 +8,10 @@ import java.util.Comparator;
  *
  */
 
-public class ComparadorAlunoPorMatricula implements Comparator<Aluno>
+public class ComparadorDisciplinaPorMatricula implements Comparator<Disciplina>
 {
     @Override
-    public int compare(Aluno o1, Aluno o2)
+    public int compare(Disciplina o1, Disciplina o2)
     {
         return Integer.compare(o1.getMatricula(), o2.getMatricula());
     }

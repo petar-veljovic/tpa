@@ -66,17 +66,16 @@ public interface IArvoreBinaria<T> {
      */
     public int quantidadeNos();
 
-    
     /**
      * Metódo que retona o resultado do caminhamento em nível na árvore.
      * @return String contendo os toString dos valores armazenados nos nós, separados por " \n ". Os nós devem ser percorridos em nível. A String deve iniciar com "[" e finalizar com "]"
      */
-    public String caminharEmNivel();
+    public String caminharEmNivel(String NomeObjeto);
     
     /**
      * Metódo que retona o resultado do caminhamento em ordem na árvore.
      * @return String contendo os toString dos valores armazenados nos nós, separados por " \n ". Os nós devem ser percorridos em ordem. A String deve iniciar com "[" e finalizar com "]"
      */
-    public String caminharEmOrdem();
+    public String caminharEmOrdem(String NomeObjeto);
 }
     
