@@ -36,9 +36,9 @@ public class Main
                         .replace("[", "")
                         .replace("]", "")
                         .replace("Aluno; ", "")
-                        .replace(" Matricula=", "")
-                        .replace(" Nome=", "")
-                        .replace(" CursosCursados=", "")
+                        .replace("Matricula=", "")
+                        .replace("Nome=", "")
+                        .replace("CursosCursados=", "")
                         .trim()
                         .split(";");
 
@@ -56,7 +56,8 @@ public class Main
 
                 lineAluno               = br.readLine();
             }
-        }    catch (IOException e)   {     System.out.println("Erro: "+ e.getMessage());     }
+        }    catch (IOException e)   {     //System.out.println("Erro: "+ e.getMessage());
+             }
 
         try (BufferedReader br = new BufferedReader(new FileReader(cDisciplina)))
         {
@@ -75,10 +76,10 @@ public class Main
                         .replace("[","")
                         .replace("]","")
                         .replace("Disciplina;","")
-                        .replace(" Matricula=","")
-                        .replace(" Nome=","")
-                        .replace(" PreRequisito=","")
-                        .replace(" CargaHoraria=","")
+                        .replace("Matricula=","")
+                        .replace("Nome=","")
+                        .replace("PreRequisito=","")
+                        .replace("CargaHoraria=","")
                         .trim()
                         .split(";");
                 if (dataDisciplina.length >= 4)
@@ -99,7 +100,7 @@ public class Main
             }
         }  catch (IOException e)  {  System.out.println("Erro: "+ e.getMessage()); }
 
-        // Menu via terminal
+        // Interface com o usuário via terminal
         Console con = System.console();
         App     menu    = new   App
                                 (   con,
@@ -115,7 +116,7 @@ public class Main
             System.gc();
             menu.BemVindo();
             menu.MostraOpcao();
-            opcao = Integer.parseInt(con.readLine("=> Opção desejada: "));
+            opcao = Integer.parseInt(con.readLine("\t=> Opção desejada: "));
             App.LimpaMenu();
             menu.OpcaoEscolha(opcao);
         }

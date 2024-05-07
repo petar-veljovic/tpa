@@ -8,6 +8,7 @@ package app;
 import java.util.Random;
 //Ajuste este import para que sua classe de Arvore Binária seja importada
 import lib.ArvoreBinaria;
+import lib.ArvoreAVL;
 //Aqui estou importando a interface IArvoreBinaria, a mesma que sua classe de Árvore Binaria deve implementar
 import lib.IArvoreBinaria;
 
@@ -21,9 +22,8 @@ public class GeradorDeArvores {
         
     final char vogais[] = {'a', 'e', 'i', 'o','u','A','E','I','O','U'};
     final Random rand = new Random();
-    final int matriculaBase = 2000000000; //original
-    //final int matriculaBase = 2000000100; // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% DEBUG
-
+    final int matriculaBase = 2000000000;
+    
     /**
      * Método que verifica se um caracter é vogal
      * @param c - caracter a ser verificado
@@ -94,9 +94,7 @@ public class GeradorDeArvores {
         nome+= geraPalavra(3+rand.nextInt(6));
         nome+=" ";
         nome+= geraPalavra(3+rand.nextInt(6));
-        return nome;        // original
-        //return "Pedro";   // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% DEBUG
-        //return "";        // %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% DEBUG
+        return nome;
     }
     
      /**

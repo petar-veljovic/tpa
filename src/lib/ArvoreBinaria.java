@@ -16,29 +16,22 @@ import java.util.*;
 public class ArvoreBinaria <T extends Comparable<T>>
         implements IArvoreBinaria<T>
 {
-    private No<T>           raiz;
+    protected No<T>           raiz;
     private Comparator<T>   comparator;
-    public ArvoreBinaria (Comparator<T> comparator)
-    {
-        this.raiz = null;
-        this.comparator = comparator;
-    }
+    public ArvoreBinaria (Comparator<T> comparator) { this.raiz = null; this.comparator = comparator; }
     @Override
-    public void adicionar(T novoValor)
-    {
-        No<T> novoNo    = new No<T>(novoValor);
-        raiz            = adiciona(raiz, novoNo);
-    }
+    public void adicionar(T novoValor) { No<T> novoNo    = new No<T>(novoValor); raiz            = adicionaRecursiva(raiz, novoNo); }
     @Override
-    public T remover(T valor)                             {     return remova(raiz, valor);     }
+    public T remover(T valor)                             {     return remova(raiz,valor); /* return (T) removaRecursivo(raiz,valor); */    }
     @Override
     public T pesquisar(T valor)                           {     return buscaElemento(valor);    }
     @Override
     public T pesquisar(T valor, Comparator comparator)    {     return buscaElementoComparator(valor, comparator);    }
     @Override
-    public String caminharEmOrdem(String NomeObjeto)      {     return mostraEmOrdem(NomeObjeto);         }
+    public String caminharEmOrdem()                       {     return mostraEmOrdem("");         }
+
     @Override
-    public String caminharEmNivel(String NomeObjeto)                       {     return mostraEmNivel(NomeObjeto);         }
+    public String caminharEmNivel()                       {     return mostraEmNivel("");         }
 
     @Override
     public int altura()                                   {     return altura(raiz);            }
@@ -49,12 +42,12 @@ public class ArvoreBinaria <T extends Comparable<T>>
      * Este método tem como objetivo inserir elemento na árvore
      *
      */
-    private No<T> adiciona (No<T> raiz, No<T> novo)
+    protected No<T> adiciona(No<T> atual, No<T> novo)
     {
         // Se o nó raiz não existir, o novo nó será retornado
-        if (raiz == null)   {   return novo;    }
+        if (atual == null)   {   return novo;    }
         // Se não, irá colocar na posição devida
-        No<T> lido = raiz;
+        No<T> lido = atual;
         // Verificará até que seja adicionado o nó.
         for (;true;)
         {
@@ -63,10 +56,12 @@ public class ArvoreBinaria <T extends Comparable<T>>
                 if (lido.getEsquerdo() != null)
                 {
                     lido = lido.getEsquerdo();
+                    lido.setAltura(atual.calculoAltura());
                 }
                 else
                 {
                     lido.setEsquerdo(novo);
+                    lido.setAltura(atual.calculoAltura());
                     // Sai da função for
                     break;
                 }
@@ -78,10 +73,12 @@ public class ArvoreBinaria <T extends Comparable<T>>
                     if (lido.getDireito() != null)
                     {
                         lido = lido.getDireito();
+                        lido.setAltura(atual.calculoAltura());
                     }
                     else
                     {
                         lido.setDireito(novo);
+                        lido.setAltura(atual.calculoAltura());
                         // Sai da função for
                         break;
                     }
@@ -89,15 +86,49 @@ public class ArvoreBinaria <T extends Comparable<T>>
                 else
                 {
                     lido.setValor(novo.getValor());
+                    lido.setAltura(atual.calculoAltura());
                     // Sai da função for
                     break;
                 }
             }
+
         }
         // Retorna a arvore com o elemento adicionado
-        return raiz;
+        return atual;
+
     }
 
+
+    /**
+     * Este método tem como objetivo inserir elemento na árvore de forma recursiva
+     *
+     */
+    protected No<T> adicionaRecursiva(No<T> atual, No<T> novo)
+    {
+
+        //caso o nó atual for nulo, o novo nó será retornado e inserido.
+        if(atual == null){
+            return novo;
+        }
+        else
+        {
+            if(comparator.compare(atual.getValor(), novo.getValor()) < 0)
+            {
+                //segue recursivamente para a sub árvore da direita
+                atual.setDireito(adiciona(atual.getDireito(), novo));
+                atual.setAltura(atual.calculoAltura());
+            }
+            else
+            {
+                //segue recursivamente para a sub árvore da esquerda.
+                //caso o nó a ser inserido tiver o mesmo valor do nó atual, esse novo nó ficará a esquerda do atual.
+                atual.setEsquerdo(adiciona(atual.getEsquerdo(), novo));
+                atual.setAltura(atual.calculoAltura());
+            }
+        }
+        //retorna o nó atual para sua devida posição conforme o retorno recursivo.
+        return atual;
+    }
 
     /**
      * Este método tem como objetivo achar o pai de um nó
@@ -126,13 +157,19 @@ public class ArvoreBinaria <T extends Comparable<T>>
         return nos;
     }
 
+    private No<T> achaProximo(No<T> nos) {
+        while (nos.getEsquerdo() != null) {
+            nos = nos.getEsquerdo();
+        }
+        return nos;
+    }
+
+
     /**
      * Este método tem como objetivo remover um elemento da árvore
      *
      */
-    //método para remover um elemento da árvore
-
-    public T remova(No<T> nos, T alvo)
+    protected T remova(No<T> nos, T alvo)
     {
         No<T> pai = null;
 
@@ -199,7 +236,10 @@ public class ArvoreBinaria <T extends Comparable<T>>
 
         // Retorna o nó removido
         return removido;
+
     }
+
+
 
     /**
      * Este método tem como objetivo buscar um elemento na árvore
@@ -289,7 +329,7 @@ public class ArvoreBinaria <T extends Comparable<T>>
 
         if (nos == null)
         {
-            retornoOrdem = "[\n]";
+            //retornoOrdem = "";
             return retornoOrdem;
         }
         // Cria uma pilha
@@ -312,9 +352,9 @@ public class ArvoreBinaria <T extends Comparable<T>>
                 Aluno aluno = (Aluno) nos.getValor();
                 retornoOrdem += "[Aluno; Matricula=";
                 retornoOrdem = retornoOrdem + aluno.getMatricula();
-                retornoOrdem += "; Nome=";
+                retornoOrdem += ";Nome=";
                 retornoOrdem = retornoOrdem + "'"+ aluno.getNome()+"'";
-                retornoOrdem += "; CursosCursados=";
+                retornoOrdem += ";CursosCursados=";
                 retornoOrdem = retornoOrdem + "'"+ aluno.getCursoCursado() + "'";
                 retornoOrdem += "]";
                 retornoOrdem = retornoOrdem + delt;
@@ -324,11 +364,11 @@ public class ArvoreBinaria <T extends Comparable<T>>
                 Disciplina disciplina = (Disciplina) nos.getValor();
                 retornoOrdem += "[Disciplina; Matricula=";
                 retornoOrdem = retornoOrdem + disciplina.getMatricula();
-                retornoOrdem += "; Nome=";
+                retornoOrdem += ";Nome=";
                 retornoOrdem = retornoOrdem + "'"+disciplina.getNome()+"'";
-                retornoOrdem += "; PreRequisito=";
+                retornoOrdem += ";PreRequisito=";
                 retornoOrdem = retornoOrdem +"'"+ disciplina.getPreRequisito()+"'";
-                retornoOrdem += "; CargaHoraria=";
+                retornoOrdem += ";CargaHoraria=";
                 retornoOrdem = retornoOrdem +disciplina.getCargaHoraria();
                 retornoOrdem += "]";
                 retornoOrdem = retornoOrdem + delt;
@@ -357,7 +397,7 @@ public class ArvoreBinaria <T extends Comparable<T>>
         // Verifica se a arvore é vazia, se for, retorne que não existe
         if (nos == null)
         {
-            retornoNivel = "";
+            //retornoNivel = "";
             return retornoNivel;
         }
 
@@ -371,9 +411,9 @@ public class ArvoreBinaria <T extends Comparable<T>>
                 Aluno aluno = (Aluno) nos.getValor();
                 retornoNivel += "[Aluno; Matricula=";
                 retornoNivel = retornoNivel + aluno.getMatricula();
-                retornoNivel += "; Nome=";
+                retornoNivel += ";Nome=";
                 retornoNivel = retornoNivel + "'"+ aluno.getNome()+"'";
-                retornoNivel += "; CursosCursados=";
+                retornoNivel += ";CursosCursados=";
                 retornoNivel = retornoNivel + "'"+aluno.getCursoCursado()+"'";
                 retornoNivel += "]";
                 retornoNivel = retornoNivel + delt;
@@ -384,11 +424,11 @@ public class ArvoreBinaria <T extends Comparable<T>>
 
                 retornoNivel += "[Disciplina; Matricula=";
                 retornoNivel = retornoNivel + disciplina.getMatricula();
-                retornoNivel += "; Nome=";
+                retornoNivel += ";Nome=";
                 retornoNivel = retornoNivel + "'"+disciplina.getNome()+"'";
-                retornoNivel += "; PreRequisito=";
+                retornoNivel += ";PreRequisito=";
                 retornoNivel = retornoNivel +"'"+ disciplina.getPreRequisito()+"'";
-                retornoNivel += "; CargaHoraria=";
+                retornoNivel += ";CargaHoraria=";
                 retornoNivel = retornoNivel +disciplina.getCargaHoraria();
                 retornoNivel += "]";
                 retornoNivel = retornoNivel + delt;
@@ -410,7 +450,7 @@ public class ArvoreBinaria <T extends Comparable<T>>
      * Este método tem como objetivo retornar a altura de uma arvore
      *
      */
-    private int altura (No<T> nos)
+    protected int altura (No<T> nos)
     {
         // Se a arvore não existir, retorne null
         if (nos == null)          {   return 0;   }
@@ -438,6 +478,27 @@ public class ArvoreBinaria <T extends Comparable<T>>
                 if (novoNo.getDireito()     != null)    {   fila.add(novoNo.getDireito());    }
             }
         }
+    }
+    /**
+     * Este método tem como objetivo retornar a altura da arvore recursiva
+     *
+     */
+    protected int alturaRecursivo (No<T> nos)
+    {
+        /* Caso o nó ou seus filhos serem nulos, logo será retornado zero. */
+        if (nos == null)
+        {
+            return 0;
+        }
+        else
+        {
+            if ((nos.getEsquerdo() == null) && (nos.getDireito() == null))   {  return 0;  }
+        }
+        /* É feito recursividade para a sub árvore tanto direita e esquerda para identificar qual é a maior sub árvore. */
+        int esquerda = altura(nos.getEsquerdo());
+        int direita = altura(nos.getDireito());
+        /* A altura da árvore é a soma da maior subárvore com a raiz */
+        return (Math.max(esquerda, direita) + 1);
     }
 
     /**
@@ -478,7 +539,6 @@ public class ArvoreBinaria <T extends Comparable<T>>
 
     /**
      * Este método tem como objetivo retornar o menor no de uma árvore
-     *
      */
     private No<T> menorNo(No<T> nos)
     {
@@ -500,15 +560,13 @@ public class ArvoreBinaria <T extends Comparable<T>>
         return nos;
     }
 
-
     public void geraArquivoOrdem(String NomeObjeto,ArvoreBinaria<T> nos,BufferedWriter bw) throws IOException {
         if(nos != null){
             String texto ="";
 
-            texto = nos.caminharEmOrdem(NomeObjeto);
+            texto = nos.mostraEmOrdem(NomeObjeto);
 
             bw.write(texto);
-
         }
     }
 }
