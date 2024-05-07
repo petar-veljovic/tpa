@@ -34,8 +34,7 @@ public class App < T > {
         System.out.println("\n" +
                 "\tBem-vindo! ao ");
         System.out.println("" +
-                "\t" +
-                "                                     /$$                         /$$                                     /$$                           /$$      \n" +
+                "\t         /$$                         /$$                                     /$$                           /$$      \n" +
                 "\t                                    | $$                        |__/                                    | $$                          | $$      \n" +
                 "\t  /$$$$$$   /$$$$$$$  /$$$$$$   /$$$$$$$  /$$$$$$  /$$$$$$/$$$$  /$$  /$$$$$$$  /$$$$$$                 | $$$$$$$   /$$$$$$   /$$$$$$$| $$$$$$$ \n" +
                 "\t |____  $$ /$$_____/ |____  $$ /$$__  $$ /$$__  $$| $$_  $$_  $$| $$ /$$_____/ /$$__  $$                | $$__  $$ |____  $$ /$$_____/| $$__  $$\n" +
@@ -131,16 +130,16 @@ public class App < T > {
     }
     public void PreRequisitoDisciplina() {
         try {
-            boolean condition = false;
+            boolean cnd = false;
             System.out.println("\n\n\t%%%%% Inserir Pré-Requisito na Disciplina\n\n");
-            for (; !condition;) {
+            for (; !cnd;) {
                 Integer matricula = Integer.parseInt(con.readLine("\tInsira o numero da matricula da disciplina: "));
                 var discObtida = DisciplinasPorMatricula.pesquisar(new Disciplina(matricula, "", "", "", "", "", 0));
 
                 if (discObtida == null) {
                     System.out.println("\tDisciplina não encontrada!\n\n");
                 } else {
-                    condition = !condition;
+                    cnd = !cnd;
                     System.out.println("\tDisciplina encontrada!\n\n");
                     String PreRequisito = con.readLine("\tInsira os nomes dos cursos Pre-Requisitos da disciplina separados por ,: ");
                     DisciplinasPorMatricula.pesquisar(new Disciplina(matricula, "", "", "", "", "", 0))
@@ -159,12 +158,12 @@ public class App < T > {
     }
     public void InformaDisciplinaCursada() {
         try {
-            boolean condition = false;
+            boolean cnd = false;
             System.out.println("\n\n\t%%%%% Registrar Aluno na Disciplina\n\n");
-            for (; !condition;) {
+            for (; !cnd;) {
                 Integer matriculaaluno = Integer.parseInt(con.readLine("\tInsira o numero da matricula do aluno: "));
                 Integer matriculadiscip = Integer.parseInt(con.readLine("\tInsira o numero da matricula da disciplina: "));
-                condition = !condition;
+                cnd = !cnd;
                 var bam = AlunosPorMatricula.buscaElemento(new Aluno(matriculaaluno, "", ""));
                 var bdm = DisciplinasPorMatricula.buscaElemento(new Disciplina(matriculadiscip, "", "", "", "", "", 0));
                 String cursosCursados = bam.getCursoCursado();
@@ -199,12 +198,12 @@ public class App < T > {
 
     public void AdicionaAluno() {
         try {
-            boolean condition = false;
+            boolean cnd = false;
             System.out.println("\n\n\t%%%%% Cadastrar Aluno\n\n");
-            for (; !condition;) {
+            for (; !cnd;) {
                 Integer matricula = Integer.parseInt(con.readLine("\tInsira o numero da matricula do aluno: "));
                 String name = con.readLine("\tInsira o nome do aluno: ");
-                condition = !condition;
+                cnd = !cnd;
                 Aluno obj = new Aluno(matricula, name, "");
 
                 if (!((AlunosPorNome.pesquisar(obj) == null) || (AlunosPorMatricula.pesquisar(obj) == null))) {
@@ -222,15 +221,15 @@ public class App < T > {
 
     public void AdicionaDisciplina() {
         try {
-            boolean condition = false;
+            boolean cnd = false;
             System.out.println("\n\n\t%%%%% Cadastrar Disciplina\n\n");
-            for (; !condition;) {
+            for (; !cnd;) {
 
                 Integer matricula = Integer.parseInt(con.readLine("\tInsira o numero da matricula da Disciplina: "));
                 String name = con.readLine("\tInsira o nome do Disciplina: ");
                 Integer ch = Integer.parseInt(con.readLine("\tInsira a carga horária da Disciplina: "));
 
-                condition = !condition;
+                cnd = !cnd;
 
                 Disciplina obj = new Disciplina(matricula, name, "", "", "", "", ch);
 

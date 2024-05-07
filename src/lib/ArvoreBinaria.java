@@ -239,8 +239,6 @@ public class ArvoreBinaria <T extends Comparable<T>>
 
     }
 
-
-
     /**
      * Este método tem como objetivo buscar um elemento na árvore
      *
@@ -560,6 +558,10 @@ public class ArvoreBinaria <T extends Comparable<T>>
         return nos;
     }
 
+    /**
+     * Este método tem como objetivo gerar um arquivo em ordem
+     *
+     */
     public void geraArquivoOrdem(String NomeObjeto,ArvoreBinaria<T> nos,BufferedWriter bw) throws IOException {
         if(nos != null){
             String texto ="";

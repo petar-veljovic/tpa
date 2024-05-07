@@ -10,18 +10,22 @@ public class ArvoreAVL <T extends Comparable<T>> extends ArvoreBinaria<T> implem
     public ArvoreAVL(Comparator<T> comp) {
         super(comp);
     }
+
+    /**
+     * Este método tem como objetivo adicionar o no para uma arvore AVL
+     *
+     */
     @Override
     protected No<T> adiciona(No<T> atual, No<T> novo)
     {
-        //adiciona o nó normalmente na árvore
-        //current = super.adiciona(current, novo);
+        // Adiciona o nó normalmente na árvore
         atual = super.adicionaRecursiva(atual, novo);
-        //calculo do fator de balanceamento do nó atual
+        // É calculado o fator de balanceamento do nó atual
         int fatbal = atual.fatorBalanco();
-        //deve-se balancear a árvore sempre que o FB for > 1 ou < -1
+        // Tem que balancear a árvore sempre que o FB for > 1 ou < -1
         if (fatbal > 1)
         {
-            //verificação para retoção à esquerda
+            // Verificará para retoção à esquerda
             if (atual.getDireito().fatorBalanco() > 0)
             {
                 atual = this.rotacionaEsquerda(atual);
@@ -35,7 +39,7 @@ public class ArvoreAVL <T extends Comparable<T>> extends ArvoreBinaria<T> implem
         {
             if (fatbal < -1)
             {
-                //verificação para retoção à direita
+                // Verificará para retoção à direita
                 if (atual.getEsquerdo().fatorBalanco() < 0)
                 {
                     atual = this.rotacionaDireita(atual);
@@ -49,19 +53,22 @@ public class ArvoreAVL <T extends Comparable<T>> extends ArvoreBinaria<T> implem
         return atual;
     }
 
+    /**
+     * Este método tem como objetivo remover o no para uma arvore AVL
+     *
+     */
     @Override
     protected T remova(No<T> nos, T alvo)
     {
-        //adiciona o nó normalmente na árvore
-        //current = super.adiciona(current, novo);
+        // Faz a remoção do nó normalmente na árvore
         T norm = super.remova(nos, alvo);
         No <T> arvrm = this.raiz;
-        //calculo do fator de balanceamento do nó atual
+        // É calculado o fator de balanceamento do nó atual
         int fatbal = arvrm.fatorBalanco();
-        //deve-se balancear a árvore sempre que o FB for > 1 ou < -1
+        // Tem que balancear a árvore sempre que o FB for > 1 ou < -1
         if (fatbal > 1)
         {
-            //verificação para retoção à esquerda
+            // Verificará  para retoção à esquerda
             if (arvrm.getDireito().fatorBalanco() > 0)
             {
                 arvrm = this.rotacionaEsquerda(arvrm);
@@ -88,39 +95,54 @@ public class ArvoreAVL <T extends Comparable<T>> extends ArvoreBinaria<T> implem
         }
         return norm;
     }
-
-
-    public No<T> rotacionaEsquerda(No<T> nos){
+    /**
+     * Este método tem como objetivo rotacionar para esquerda o no da arvore AVL
+     *
+     */
+    public No<T> rotacionaEsquerda(No<T> nos)
+    {
         No<T> filho = nos.getDireito();
         nos.setDireito(filho.getEsquerdo());
         filho.setEsquerdo(nos);
-        //altera os valores da altura dos nós
+        // Muda os valores da altura dos nós
         nos.setAltura(nos.calculoAltura());
         filho.setAltura(filho.calculoAltura());
         return filho;
     }
-
-    public No<T> rotacionaDireita(No<T> nos){
+    /**
+     * Este método tem como objetivo rotacionar para direita o no da arvore AVL
+     *
+     */
+    public No<T> rotacionaDireita(No<T> nos)
+    {
         No<T> filho = nos.getEsquerdo();
         nos.setEsquerdo(filho.getDireito());
         filho.setDireito(nos);
-        //altera os valores da altura dos nós
+        // Muda os valores da altura dos nós
         nos.setAltura(nos.calculoAltura());
         filho.setAltura(filho.calculoAltura());
         return filho;
     }
-
-    public No<T> rotacionaEsquerdaParaDireita(No<T> nos){
-        //rotaciona a esquerda o filho à esquerda do nó
+    /**
+     * Este método tem como objetivo rotacionar o no esquerdo para direito da arvore AVL
+     *
+     */
+    public No<T> rotacionaEsquerdaParaDireita(No<T> nos)
+    {
+        // É rotacionado a esquerda o filho à esquerda do nó
         nos.setEsquerdo(rotacionaEsquerda(nos.getEsquerdo()));
-        //rotaciona o nó à direita
+        // É rotacionado o nó à direita
         return rotacionaDireita(nos);
     }
-
-    public No<T> rotacionaDireitaParaEsquerda(No<T> nos){
+    /**
+     * Este método tem como objetivo rotacionar o no direito para esquerdo da arvore AVL
+     *
+     */
+    public No<T> rotacionaDireitaParaEsquerda(No<T> nos)
+    {
         /* É rotacionado a direita o filho para direita do nó */
         nos.setDireito(rotacionaDireita(nos.getDireito()));
-        /* É rotaciona o nó à esquerda */
+        /* É rotacionado o nó à esquerda */
         return rotacionaEsquerda(nos);
     }
 }

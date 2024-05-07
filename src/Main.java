@@ -26,13 +26,11 @@ public class Main
             String lineAluno = br.readLine();
             for (;lineAluno != null;) {
                 String dataAluno[] = lineAluno
-
                         .replaceAll("\\R+", " ")
                         .replace(",", "")
                         .replace("\n", "")
                         .replace("\r", "")
                         .replace("\t", "")
-
                         .replace("[", "")
                         .replace("]", "")
                         .replace("Aluno; ", "")
@@ -65,14 +63,12 @@ public class Main
             lineDisciplina = br.readLine();
             for (;lineDisciplina != null;)
             {
-
                 String  dataDisciplina[]     = lineDisciplina
                         .replaceAll("\\R+", " ")
                         .replace(",", "")
                         .replace("\n", "")
                         .replace("\r", "")
                         .replace("\t", "")
-
                         .replace("[","")
                         .replace("]","")
                         .replace("Disciplina;","")
@@ -98,7 +94,7 @@ public class Main
                 }
                 lineDisciplina                  = br.readLine();
             }
-        }  catch (IOException e)  {  System.out.println("Erro: "+ e.getMessage()); }
+        }  catch (IOException e)  {  /*System.out.println("Erro: "+ e.getMessage());*/ }
 
         // Interface com o usuário via terminal
         Console con = System.console();
