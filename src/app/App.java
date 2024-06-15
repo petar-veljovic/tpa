@@ -34,7 +34,7 @@ public class App < T > {
         System.out.println("\n" +
                 "\tBem-vindo! ao ");
         System.out.println("" +
-                "\t         /$$                         /$$                                     /$$                           /$$      \n" +
+                "\t                                     /$$                         /$$                                     /$$                           /$$      \n" +
                 "\t                                    | $$                        |__/                                    | $$                          | $$      \n" +
                 "\t  /$$$$$$   /$$$$$$$  /$$$$$$   /$$$$$$$  /$$$$$$  /$$$$$$/$$$$  /$$  /$$$$$$$  /$$$$$$                 | $$$$$$$   /$$$$$$   /$$$$$$$| $$$$$$$ \n" +
                 "\t |____  $$ /$$_____/ |____  $$ /$$__  $$ /$$__  $$| $$_  $$_  $$| $$ /$$_____/ /$$__  $$                | $$__  $$ |____  $$ /$$_____/| $$__  $$\n" +
@@ -127,6 +127,7 @@ public class App < T > {
                 break;
 
         }
+        System.gc();
     }
     public void PreRequisitoDisciplina() {
         try {
@@ -137,7 +138,7 @@ public class App < T > {
                 var discObtida = DisciplinasPorMatricula.pesquisar(new Disciplina(matricula, "", "", "", "", "", 0));
 
                 if (discObtida == null) {
-                    System.out.println("\tDisciplina não encontrada!\n\n");
+                    System.out.println("\t[ERRO] Disciplina não encontrada!\n\n");
                 } else {
                     cnd = !cnd;
                     System.out.println("\tDisciplina encontrada!\n\n");
@@ -148,12 +149,18 @@ public class App < T > {
                                             .trim()
                                             .replace("  ", " ")
                                             .replace(" ,", ",").replace(", ", ",")
+                                            .replace(discObtida.getNome(),"")
+                                            .replace(",,",",")
+
                             );
-                    System.out.println("\n\tRegistrado com sucesso!\n\n");
+                    System.out.println("\n\t[OK] Registrado com sucesso!\n\n");
+                    //if (true) {
+                    //    } else {}
+
                 }
             }
         } catch (Exception e) {
-            System.out.println("\tDados invalidos!");
+            System.out.println("\t[ERRO] Dados invalidos!");
         }
     }
     public void InformaDisciplinaCursada() {
@@ -185,14 +192,14 @@ public class App < T > {
                         .equals("")) {
                     String tmpcursos = bam.getCursoCursado() + bdm.getNome() + ",";
                     bam.setCursoCursado(tmpcursos);
-                    System.out.println("%%%%%\tO Aluno de Matricula=" + bam.getMatricula() + " e Nome=" + bam.getNome() + " atende aos Pré-Requisitos, Registrado na Disciplina com sucesso!");
+                    System.out.println("%%%%%\t[OK] O Aluno de Matricula=" + bam.getMatricula() + " e Nome=" + bam.getNome() + " atende aos Pré-Requisitos, Registrado na Disciplina com sucesso!");
                 } else {
-                    System.out.println("%%%%%\tO Aluno de Matricula=" + bam.getMatricula() + " e Nome=" + bam.getNome() + " não atende aos Pré-Requisitos\nPré-Requisitos que tem que ser atendidos:\n");
+                    System.out.println("%%%%%\t[NOTA] O Aluno de Matricula=" + bam.getMatricula() + " e Nome=" + bam.getNome() + " não atende aos Pré-Requisitos\nPré-Requisitos que tem que ser atendidos:\n");
                     System.out.println(PreRequisitos.replace(",", "\n"));
                 }
             }
         } catch (Exception e) {
-            System.out.println("\tDados invalidos!");
+            System.out.println("\t[ERRO] Dados invalidos!");
         }
     }
 
@@ -207,15 +214,15 @@ public class App < T > {
                 Aluno obj = new Aluno(matricula, name, "");
 
                 if (!((AlunosPorNome.pesquisar(obj) == null) || (AlunosPorMatricula.pesquisar(obj) == null))) {
-                    System.out.println("\tNão foi possivel registrar pois o registro do Aluno já existe!");
+                    System.out.println("\t[ERRO] Não foi possivel registrar pois o registro do Aluno já existe!");
                 } else {
                     AlunosPorNome.adicionar(obj);
                     AlunosPorMatricula.adicionar(obj);
-                    System.out.println("\tCadastrado com sucesso!");
+                    System.out.println("\t[OK] Cadastrado com sucesso!");
                 }
             }
         } catch (Exception e) {
-            System.out.println("\tDados invalidos!");
+            System.out.println("\t[ERRO] Dados invalidos!" + e.getMessage().toString());
         }
     }
 
@@ -238,12 +245,12 @@ public class App < T > {
                 } else {
                     DisciplinasPorNome.adicionar(obj);
                     DisciplinasPorMatricula.adicionar(obj);
-                    System.out.println("\tCadastrado com sucesso!");
+                    System.out.println("\t[OK] Cadastrado com sucesso!");
                 }
 
             }
         } catch (Exception e) {
-            System.out.println("\tDados invalidos!");
+            System.out.println("\t[ERRO] Dados invalidos!");
         }
     }
 
@@ -313,9 +320,9 @@ public class App < T > {
                     }
                     break;
             }
-            System.out.println("\tBuscado com sucesso!");
+            System.out.println("\t[OK] Buscado com sucesso!");
         } catch (Exception e) {
-            System.out.println("\tDados invalidos!");
+            System.out.println("\t[ERRO] Dados invalidos!");
         }
     }
     public void BuscaDisciplina(int organizacao) {
@@ -395,9 +402,9 @@ public class App < T > {
                     }
                     break;
             }
-            System.out.println("\tBuscado com sucesso!");
+            System.out.println("\t[OK] Buscado com sucesso!");
         } catch (Exception e) {
-            System.out.println("\tDados invalidos!");
+            System.out.println("\t[ERRO] Dados invalidos!");
         }
     }
 
@@ -421,7 +428,7 @@ public class App < T > {
                 System.out.println("\tNão foi possivel remover o Aluno!");
             }
         } catch (Exception e) {
-            System.out.println("\tDados invalidos!");
+            System.out.println("\t[ERRO] Dados invalidos!");
         }
     }
 
@@ -446,7 +453,7 @@ public class App < T > {
                 System.out.println("\tNão foi possivel remover a Disciplina!");
             }
         } catch (Exception e) {
-            System.out.println("\tDados invalidos!");
+            System.out.println("\t[ERRO] Dados invalidos!");
         }
     }
 

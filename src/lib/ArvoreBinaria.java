@@ -22,7 +22,7 @@ public class ArvoreBinaria <T extends Comparable<T>>
     @Override
     public void adicionar(T novoValor) { No<T> novoNo    = new No<T>(novoValor); raiz            = adicionaRecursiva(raiz, novoNo); }
     @Override
-    public T remover(T valor)                             {     return remova(raiz,valor); /* return (T) removaRecursivo(raiz,valor); */    }
+    public T remover(T valor)                             {     return remova(raiz,valor); /* return (T) removaRecursivo(raiz,valor); */ }
     @Override
     public T pesquisar(T valor)                           {     return buscaElemento(valor);    }
     @Override
@@ -39,7 +39,7 @@ public class ArvoreBinaria <T extends Comparable<T>>
     public int quantidadeNos()                            {     return qntNos(raiz);            }
 
     /**
-     * Este método tem como objetivo inserir elemento na árvore
+     * Este método tem como objetivo inserir elemento na árvore de forma iterativa
      *
      */
     protected No<T> adiciona(No<T> atual, No<T> novo)
@@ -105,8 +105,8 @@ public class ArvoreBinaria <T extends Comparable<T>>
      */
     protected No<T> adicionaRecursiva(No<T> atual, No<T> novo)
     {
-
-        //caso o nó atual for nulo, o novo nó será retornado e inserido.
+        System.gc();
+        // Caso o nó atual for nulo, o novo nó será retornado e inserido.
         if(atual == null){
             return novo;
         }
@@ -126,15 +126,15 @@ public class ArvoreBinaria <T extends Comparable<T>>
                 atual.setAltura(atual.calculoAltura());
             }
         }
-        //retorna o nó atual para sua devida posição conforme o retorno recursivo.
+        // Retorna o nó atual para sua devida posição conforme o retorno recursivo.
         return atual;
     }
 
     /**
-     * Este método tem como objetivo achar o pai de um nó
+     * Este método tem como objetivo achar o parente de um nó
      *
      */
-    private No<T> achaPai(No<T> nos, No<T> filho)
+    private No<T> achaParente(No<T> nos, No<T> filho)
     {
         No<T> pai = null;
         // Verificará até o terminio da arvore
@@ -156,14 +156,6 @@ public class ArvoreBinaria <T extends Comparable<T>>
         }
         return nos;
     }
-
-    private No<T> achaProximo(No<T> nos) {
-        while (nos.getEsquerdo() != null) {
-            nos = nos.getEsquerdo();
-        }
-        return nos;
-    }
-
 
     /**
      * Este método tem como objetivo remover um elemento da árvore
@@ -223,7 +215,7 @@ public class ArvoreBinaria <T extends Comparable<T>>
             {
                 // É buscado o maior nó na sub árvore da esquerda,
                 No<T> maiorNo     = maiorNo       (nos.getEsquerdo());
-                No<T> maiorNoPai  = achaPai       (nos, maiorNo);
+                No<T> maiorNoPai  = achaParente       (nos, maiorNo);
 
                 nos.setValor(maiorNo.getValor());
                 // O nó buscado trocará o nó que será removido da árvore, mantendo coerente a árvore
@@ -252,7 +244,7 @@ public class ArvoreBinaria <T extends Comparable<T>>
         for (;(atual != null);)
         {
             // Se o elemento alvo é igual o nó, é achado o elemento, retornado, e termina
-            if (comparator.compare(atual.getValor(), alvo) == 0) { /* System.out.println("\n\n"+"O n° total de nós percorridos foi: "+qntnoslidos+"\n\n"); */
+            if (comparator.compare(atual.getValor(), alvo) == 0) {
                 return atual.getValor();
             }
             // Se não, continua a busca
@@ -272,7 +264,6 @@ public class ArvoreBinaria <T extends Comparable<T>>
             }
             //qntnoslidos++;
         }
-        //System.out.println("\n\n"+"total nos percorridos: "+qntnoslidos+"\n\n");
         return null;
     }
 
@@ -346,6 +337,9 @@ public class ArvoreBinaria <T extends Comparable<T>>
             // Busca o valor no topo da pilha e retira
             nos = pilha.pop();
 
+            if (nos != null)
+            {
+
             if (Objects.equals(NomeObjeto, "Aluno")) {
                 Aluno aluno = (Aluno) nos.getValor();
                 retornoOrdem += "[Aluno; Matricula=";
@@ -370,6 +364,16 @@ public class ArvoreBinaria <T extends Comparable<T>>
                 retornoOrdem = retornoOrdem +disciplina.getCargaHoraria();
                 retornoOrdem += "]";
                 retornoOrdem = retornoOrdem + delt;
+            }
+            if (Objects.equals(NomeObjeto, "") || Objects.equals(NomeObjeto, null) )
+            {
+                No dadono = (No) nos.getValor();
+
+                retornoOrdem += "[";
+                retornoOrdem = retornoOrdem + dadono.getValor();
+                retornoOrdem += "]";
+                retornoOrdem = retornoOrdem + delt;
+            }
             }
 
             nos = nos.getDireito();
@@ -405,6 +409,7 @@ public class ArvoreBinaria <T extends Comparable<T>>
         {
             // Pega o primeiro elemento da lista
             No<T>           lido = lista.getFirst();
+            if (nos != null){
             if (Objects.equals(NomeObjeto, "Aluno")) {
                 Aluno aluno = (Aluno) nos.getValor();
                 retornoNivel += "[Aluno; Matricula=";
@@ -431,7 +436,15 @@ public class ArvoreBinaria <T extends Comparable<T>>
                 retornoNivel += "]";
                 retornoNivel = retornoNivel + delt;
             }
+            if (Objects.equals(NomeObjeto, "") || Objects.equals(NomeObjeto, null) )
+            {
+                 No dadono = (No) nos.getValor();
 
+                retornoNivel += "[";
+                retornoNivel = retornoNivel + dadono.getValor();
+                retornoNivel += "]";
+                retornoNivel = retornoNivel + delt;
+            }}
 
             // Pega o primeiro elemento da lista e o remove
             lista.removeFirst();
@@ -478,7 +491,7 @@ public class ArvoreBinaria <T extends Comparable<T>>
         }
     }
     /**
-     * Este método tem como objetivo retornar a altura da arvore recursiva
+     * Este método tem como objetivo retornar a altura da arvore de forma recursiva
      *
      */
     protected int alturaRecursivo (No<T> nos)
@@ -493,8 +506,8 @@ public class ArvoreBinaria <T extends Comparable<T>>
             if ((nos.getEsquerdo() == null) && (nos.getDireito() == null))   {  return 0;  }
         }
         /* É feito recursividade para a sub árvore tanto direita e esquerda para identificar qual é a maior sub árvore. */
-        int esquerda = altura(nos.getEsquerdo());
-        int direita = altura(nos.getDireito());
+        int esquerda = alturaRecursivo(nos.getEsquerdo());
+        int direita = alturaRecursivo(nos.getDireito());
         /* A altura da árvore é a soma da maior subárvore com a raiz */
         return (Math.max(esquerda, direita) + 1);
     }
@@ -510,20 +523,20 @@ public class ArvoreBinaria <T extends Comparable<T>>
         // Se não, será buscado a quantidade de nós de uma arvore
         // Cria uma pilha
         Stack <No<T>> pilha = new Stack<>();
-        // insere a arvore na pilha
+        // Insere a arvore na pilha
         pilha.push(nos);
         int qntNos = 0;
 
-        // continuara até que a pilha fique vazia
+        // Continuara até que a pilha fique vazia
         for (;!(pilha.isEmpty());)
         {
-            // remove um elemento do topo da pilha e recebe o valor
+            // Remove um elemento do topo da pilha e recebe o valor
             No<T> topo = pilha.pop();
             for (;topo != null;)
             {
                 if (topo.getDireito() != null)
                 {
-                    // insere o elemento no topo da pilha e recebe o valor
+                    // Insere o elemento no topo da pilha e recebe o valor
                     pilha.push(topo.getDireito());
                 }
                 topo = topo.getEsquerdo();
@@ -533,17 +546,6 @@ public class ArvoreBinaria <T extends Comparable<T>>
         }
         // Retorna a quantidade de nós
         return qntNos;
-    }
-
-    /**
-     * Este método tem como objetivo retornar o menor no de uma árvore
-     */
-    private No<T> menorNo(No<T> nos)
-    {
-        // Faz o loop para varrer a sub árvore da esquerda até encontrar o último nó da qual será o menor
-        for (;nos.getEsquerdo() != null;)   { nos = nos.getEsquerdo();  }
-        // Retorna o menor nó
-        return nos;
     }
 
     /**

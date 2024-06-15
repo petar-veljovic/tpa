@@ -60,7 +60,6 @@ public class Main
         try (BufferedReader br = new BufferedReader(new FileReader(cDisciplina)))
         {
             String lineDisciplina = br.readLine();
-            lineDisciplina = br.readLine();
             for (;lineDisciplina != null;)
             {
                 String  dataDisciplina[]     = lineDisciplina
