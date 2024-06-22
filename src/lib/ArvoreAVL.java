@@ -50,6 +50,7 @@ public class ArvoreAVL <T extends Comparable<T>> extends ArvoreBinaria<T> implem
                 }
             }
         }
+        // Retorna a arvore
         return atual;
     }
 
@@ -93,6 +94,7 @@ public class ArvoreAVL <T extends Comparable<T>> extends ArvoreBinaria<T> implem
                 }
             }
         }
+        // É retornado o nó removido
         return norm;
     }
     /**
