@@ -13,7 +13,7 @@ import java.io.BufferedWriter;
  */
 
 public class Aluno implements Comparable<Aluno> {
-    private int matricula;
+    private Integer matricula;
     private String nome;
 
     public void setCursoCursado(String cursoCursado) {

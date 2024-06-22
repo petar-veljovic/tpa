@@ -31,7 +31,7 @@ public class App < T > {
     }
 
     public void BemVindo() {
-        System.out.println("\n" +
+        System.out.println(". . .\n" +
                 "\tBem-vindo! ao ");
         System.out.println("" +
                 "\t                                     /$$                         /$$                                     /$$                           /$$      \n" +
@@ -42,7 +42,7 @@ public class App < T > {
                 "\t /$$__  $$| $$       /$$__  $$| $$  | $$| $$_____/| $$ | $$ | $$| $$| $$      | $$  | $$                | $$  | $$ /$$__  $$ \\____  $$| $$  | $$\n" +
                 "\t|  $$$$$$$|  $$$$$$$|  $$$$$$$|  $$$$$$$|  $$$$$$$| $$ | $$ | $$| $$|  $$$$$$$|  $$$$$$/       /$$      | $$$$$$$/|  $$$$$$$ /$$$$$$$/| $$  | $$\n" +
                 "\t \\_______/ \\_______/ \\_______/ \\_______/ \\_______/|__/ |__/ |__/|__/ \\_______/ \\______/       |__/      |_______/  \\_______/|_______/ |__/  |__/" +
-                "\n\n");
+                "\n                                                                                                                                  @author Petar Veljovic\n");
     }
 
     public void MostraOpcao() {
@@ -76,6 +76,10 @@ public class App < T > {
                 "\t\t\t[Sobre]\tDada a matrícula, exclui o aluno.\n" +
                 "\t[10]\tExcluir Disciplina por Matrícula\n" +
                 "\t\t\t[Sobre]\tDada a matrícula, exclui a disciplina.\n" +
+                "\t[11]\tVisualizar Alunos\n" +
+                "\t\t\t[Sobre]\tMostra a lista de alunos.\n" +
+                "\t[12]\tVisualizar Disciplinas\n" +
+                "\t\t\t[Sobre]\tMostra a lista de disciplinas.\n" +
                 "\n" +
                 "\t. . .\n" +
                 "\n" +
@@ -122,8 +126,14 @@ public class App < T > {
             case 10:
                 RemovaDisciplina();
                 break;
+            case 11:
+                LerAluno();
+                break;
+            case 12:
+            	LerDisciplina();
+                break;
             default:
-                System.out.println("\tOpção Selecionada Invalida!");
+                System.out.println("\t[ERRO] Opção Selecionada Invalida!");
                 break;
 
         }
@@ -138,10 +148,10 @@ public class App < T > {
                 var discObtida = DisciplinasPorMatricula.pesquisar(new Disciplina(matricula, "", "", "", "", "", 0));
 
                 if (discObtida == null) {
-                    System.out.println("\t[ERRO] Disciplina não encontrada!\n\n");
+                    System.out.println("\t[NOTA] Disciplina não encontrada!\n\n");
                 } else {
                     cnd = !cnd;
-                    System.out.println("\tDisciplina encontrada!\n\n");
+                    System.out.println("\t[OK] Disciplina encontrada!\n\n");
                     String PreRequisito = con.readLine("\tInsira os nomes dos cursos Pre-Requisitos da disciplina separados por ,: ");
                     DisciplinasPorMatricula.pesquisar(new Disciplina(matricula, "", "", "", "", "", 0))
                             .setPreRequisito(
@@ -192,9 +202,9 @@ public class App < T > {
                         .equals("")) {
                     String tmpcursos = bam.getCursoCursado() + bdm.getNome() + ",";
                     bam.setCursoCursado(tmpcursos);
-                    System.out.println("%%%%%\t[OK] O Aluno de Matricula=" + bam.getMatricula() + " e Nome=" + bam.getNome() + " atende aos Pré-Requisitos, Registrado na Disciplina com sucesso!");
+                    System.out.println("\t[OK] O Aluno de Matricula=" + bam.getMatricula() + " e Nome=" + bam.getNome() + " atende aos Pré-Requisitos, Registrado na Disciplina com sucesso!");
                 } else {
-                    System.out.println("%%%%%\t[NOTA] O Aluno de Matricula=" + bam.getMatricula() + " e Nome=" + bam.getNome() + " não atende aos Pré-Requisitos\nPré-Requisitos que tem que ser atendidos:\n");
+                    System.out.println("\t[NOTA] O Aluno de Matricula=" + bam.getMatricula() + " e Nome=" + bam.getNome() + " não atende aos Pré-Requisitos\nPré-Requisitos que tem que ser atendidos:\n");
                     System.out.println(PreRequisitos.replace(",", "\n"));
                 }
             }
@@ -214,7 +224,7 @@ public class App < T > {
                 Aluno obj = new Aluno(matricula, name, "");
 
                 if (!((AlunosPorNome.pesquisar(obj) == null) || (AlunosPorMatricula.pesquisar(obj) == null))) {
-                    System.out.println("\t[ERRO] Não foi possivel registrar pois o registro do Aluno já existe!");
+                    System.out.println("\t[NOTA] Não foi possivel registrar pois o registro do Aluno já existe!");
                 } else {
                     AlunosPorNome.adicionar(obj);
                     AlunosPorMatricula.adicionar(obj);
@@ -241,7 +251,7 @@ public class App < T > {
                 Disciplina obj = new Disciplina(matricula, name, "", "", "", "", ch);
 
                 if (!((DisciplinasPorNome.pesquisar(obj) == null) || (DisciplinasPorMatricula.pesquisar(obj) == null))) {
-                    System.out.println("\tNão foi possivel registrar pois o registro da disciplina já existe!");
+                    System.out.println("\t[NOTA] Não foi possivel registrar pois o registro da disciplina já existe!");
                 } else {
                     DisciplinasPorNome.adicionar(obj);
                     DisciplinasPorMatricula.adicionar(obj);
@@ -265,17 +275,16 @@ public class App < T > {
                     var ban = AlunosPorNome.buscaElemento(new Aluno(0, name, ""));
 
                     if (ban == null) {
-                        System.out.println("\tAluno não encontrado!\n\n");
+                        System.out.println("\t[NOTA] Aluno não encontrado!\n\n");
                     } else {
-                        System.out.println("\tAluno encontrado!\n\n");
+                        System.out.println("\t[OK] Aluno encontrado!\n\n");
                         System.out.println("\tMatricula: " + (ban.getMatricula()));
                         System.out.println("\tNome: " + (ban.getNome()));
-                        System.out.println("\tCursos Cursados: \n\n");
+                        System.out.println("\tCursos Cursados: \n");
 
                         String listaCursos = ban.getCursoCursado();
 
-                        if (listaCursos != null && !(listaCursos.trim().replace(",", "").replace(" ", "").equals(""))) {
-                            System.out.println("\tn/a");
+                        if (listaCursos != null && !(listaCursos.trim().replace(",", "").replace(" ", "").replace("\r", "").replace("\n", "").replace("\t", "").equals(""))) {
                             String[] obterCursos = listaCursos.split(",");
 
                             String cursosCursados = "";
@@ -287,6 +296,10 @@ public class App < T > {
                             }
                             System.out.println(cursosCursados);
                         }
+                        else
+                        {
+                        	System.out.println("\tn/a");
+                        }
                     }
                     break;
                 case 1:
@@ -295,17 +308,16 @@ public class App < T > {
                     var bam = AlunosPorMatricula.buscaElemento(new Aluno(matricula, "", ""));
 
                     if (bam == null) {
-                        System.out.println("\tAluno não encontrado!\n\n");
+                        System.out.println("\t[NOTA] Aluno não encontrado!\n\n");
                     } else {
-                        System.out.println("\tAluno encontrado!\n\n");
+                        System.out.println("\t[OK] Aluno encontrado!\n\n");
 
                         System.out.println("\tMatricula: " + (bam.getMatricula()));
                         System.out.println("\tNome: " + (bam.getNome()));
-                        System.out.println("\tCursos Cursados: \n\n");
+                        System.out.println("\tCursos Cursados: \n");
 
                         String listaCursos = bam.getCursoCursado();
-                        if (listaCursos != null && !(listaCursos.trim().replace(",", "").replace(" ", "").equals(""))) {
-                            System.out.println("\tn/a");
+                        if (listaCursos != null && !(listaCursos.trim().replace(",", "").replace(" ", "").replace("\r", "").replace("\n", "").replace("\t", "").equals(""))) {
                             String[] obterCursos = listaCursos.split(",");
 
                             String cursosCursados = "";
@@ -316,6 +328,10 @@ public class App < T > {
                                 cursosCursados += "\n\t[" + "Disciplina; " + "Matricula=" + cursoObt.getMatricula() + "; Nome=" + cursoObt.getNome() + "; CargaHoraria=" + cursoObt.getCargaHoraria() + "]";
                             }
                             System.out.println(cursosCursados);
+                        }
+                        else
+                        {
+                        	System.out.println("\tn/a");
                         }
                     }
                     break;
@@ -333,9 +349,9 @@ public class App < T > {
                     String nome = con.readLine("\tInsira o nome da Disciplina a ser buscado: ");
                     var bdn = DisciplinasPorNome.buscaElemento(new Disciplina(0, nome, "", "", "", "", 0));
                     if (bdn == null) {
-                        System.out.println("\t%%%%% Aluno não encontrado!\n\n");
+                        System.out.println("\t[NOTA] Disciplina não encontrada!\n\n");
                     } else {
-                        System.out.println("\tAluno encontrado!\n\n");
+                        System.out.println("\t[OK] Disciplina encontrado!\n\n");
                         System.out.println("\tMatricula: " + (bdn.getMatricula()));
                         System.out.println("\tNome: " + (bdn.getNome()));
                         System.out.println("\tCarga Horária: " + (bdn.getCargaHoraria()));
@@ -370,9 +386,9 @@ public class App < T > {
                     var bdm = DisciplinasPorMatricula.buscaElemento(new Disciplina(matricula, "", "", "", "", "", 0));
 
                     if (bdm == null) {
-                        System.out.println("\t%%%%% Disciplina não encontrado!\n\n");
+                        System.out.println("\t[NOTA] Disciplina não encontrada!\n\n");
                     } else {
-                        System.out.println("\tDisciplina encontrado!\n\n");
+                        System.out.println("\t[OK] Disciplina encontrada!\n\n");
                         System.out.println("\tMatricula: " + (bdm.getMatricula()));
                         System.out.println("\tNome: " + (bdm.getNome()));
                         System.out.println("\tCarga Horária: " + (bdm.getCargaHoraria()));
@@ -413,19 +429,13 @@ public class App < T > {
             System.out.println("\n\n\t%%%%% Remover Aluno por Matricula\n\n");
             Integer matricula = Integer.parseInt(con.readLine("\tInsira o numero da matricula do aluno a ser removido: "));
 
-            if (AlunosPorMatricula.quantidadeNos() < 1)
-            {
-                System.out.println("\tNão foi removido, para remover deve ter no minimo 1 registro!");
-                return;
-            }
-
             Aluno obj = AlunosPorMatricula.remover(new Aluno(matricula, "", ""));
             if (obj != null) {
-                System.out.println("\tRemovido com sucesso!");
+                System.out.println("\t[OK] Removido com sucesso!");
                 //+ obj);
                 AlunosPorNome.remover(obj);
             } else {
-                System.out.println("\tNão foi possivel remover o Aluno!");
+                System.out.println("\t[NOTA] Não foi possivel remover o Aluno!");
             }
         } catch (Exception e) {
             System.out.println("\t[ERRO] Dados invalidos!");
@@ -436,27 +446,40 @@ public class App < T > {
         try {
             System.out.println("\n\n\t%%%%% Remover Disciplina por Matricula\n\n");
             Integer matricula = Integer.parseInt(con.readLine("\tInsira o numero da matricula da disciplina a ser removido: "));
-
-            if (DisciplinasPorMatricula.quantidadeNos() < 1)
-            {
-                System.out.println("\tNão foi removido, para remover deve ter no minimo 1 registro!: ");
-                return;
-            }
-
+            
             Disciplina obj = DisciplinasPorMatricula.remover(new Disciplina(matricula, "", "", "", "", "", 0));
 
             if (obj != null) {
-                System.out.println("\tRemovido com sucesso!");
+                System.out.println("\t[OK] Removido com sucesso!");
                         //+ obj);
                 DisciplinasPorNome.remover(obj);
             } else {
-                System.out.println("\tNão foi possivel remover a Disciplina!");
+                System.out.println("\t[NOTA] Não foi possivel remover a Disciplina!");
             }
         } catch (Exception e) {
             System.out.println("\t[ERRO] Dados invalidos!");
         }
     }
 
+    
+    public void LerAluno() 
+    {
+    	System.out.println("\n\n\t%%%%% Visualizar Alunos\n\n");
+    	System.out.println("\t      Lista de Alunos\n\n");
+    	System.out.println(AlunosPorMatricula.mostraEmOrdem("Aluno").replace("[Aluno;", "\t[Aluno;").replace(";", ";\t"));
+    	System.out.println("\t[OK] Visualizado alunos com sucesso!");
+    }
+    
+    public void LerDisciplina()
+    {
+    	System.out.println("\n\n\t%%%%% Visualizar Disciplinas\n\n");
+    	System.out.println("\t      Lista de Disciplinas\n\n");
+    	System.out.println(DisciplinasPorMatricula.mostraEmOrdem("Disciplina").replace("[Disciplina;", "\t[Disciplina;").replace(";", ";\t"));
+    	System.out.println("\t[OK] Visualizado disciplinas com sucesso!");
+    }
+
+    
+    
     public void GeraArquivo() {
         String workingDirectory = System.getProperty("user.dir");
         String arqAluno = "20241tpapetarvalunos.txt";
@@ -470,18 +493,18 @@ public class App < T > {
         try (BufferedWriter bw = new BufferedWriter(new FileWriter(alunos))) {
             AlunosPorMatricula.geraArquivoOrdem("Aluno", AlunosPorMatricula, bw);
         } catch (IOException e) {
-            System.out.println("\tErro ao gravar arquivo: ");
+            System.out.println("\t[ERRO] Não é possivel gravar arquivo: ");
                     //+ e.getMessage());
         }
-        System.out.println("\tArquivo '20241tpapetarvalunos.txt' gerado com sucesso em " + arqTotalAluno);
+        System.out.println("\t[OK] Arquivo '20241tpapetarvalunos.txt' gerado com sucesso em " + arqTotalAluno);
 
         try (BufferedWriter bw = new BufferedWriter(new FileWriter(disciplinas))) {
             DisciplinasPorMatricula.geraArquivoOrdem("Disciplina", DisciplinasPorMatricula, bw);
         } catch (IOException e) {
-            System.out.println("\tErro ao gravar arquivo: " );
+            System.out.println("\t[ERRO] Não é possivel gravar arquivo: ");
                     //+ e.getMessage());
         }
-        System.out.println("\tArquivo '20241tpapetarvdisciplinas.txt' gerado com sucesso em " + arqTotalDisciplinas);
+        System.out.println("\t[OK] Arquivo '20241tpapetarvdisciplinas.txt' gerado com sucesso em " + arqTotalDisciplinas);
     }
     public static void LimpaMenu() throws IOException,
             InterruptedException {

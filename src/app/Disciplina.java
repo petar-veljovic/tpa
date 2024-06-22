@@ -10,7 +10,7 @@ package app;
 
 public class Disciplina implements Comparable<Disciplina>
 {
-    private int matricula;
+    private Integer matricula;
     private String nome;
     private String preRequisito;
     private String turno;

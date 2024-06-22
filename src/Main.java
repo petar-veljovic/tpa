@@ -2,6 +2,13 @@ import app.     *;
 import lib.     *;
 import java.io. *;
 
+/**
+*
+* @author Petar Veljovic
+* 
+* Essa é a classe Main
+* 
+*/
 public class Main
 {
     public static void main(String[] args) throws IOException, InterruptedException
@@ -44,8 +51,8 @@ public class Main
                 {
                         Aluno aluno = new Aluno(
                         Integer.parseInt(dataAluno[0]),
-                        dataAluno[1],
-                        dataAluno[2]
+                        dataAluno[1].replace("'",""),
+                        dataAluno[2].replace("'","")
                         );
                     AlunosPorMatricula.adicionar(aluno);
                     AlunosPorNome.adicionar(aluno);
@@ -81,8 +88,8 @@ public class Main
                 {
                     Disciplina disciplina = new Disciplina(
                             Integer.parseInt(dataDisciplina[0]),
-                            dataDisciplina[1],
-                            dataDisciplina[2],
+                            dataDisciplina[1].replace("'",""),
+                            dataDisciplina[2].replace("'",""),
                             "",
                             "",
                             "",

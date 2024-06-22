@@ -189,7 +189,8 @@ public class ArvoreBinaria <T extends Comparable<T>>
                 // Direito
                 else                                                            {  pai.setDireito(null);    }
             }
-            else                                                                {  raiz.setValor(null);     }
+            else                                                                {  //raiz.setValor(null);
+                raiz=null;    }
             // Após isso, o nó é removido
         }
         // Se não, o nó tem filho, é verificado a posição desse filho em relação aos nós
@@ -310,7 +311,7 @@ public class ArvoreBinaria <T extends Comparable<T>>
      * Este método tem como objetivo percorrer a arvore em ordem
      *
      */
-    private String mostraEmOrdem(String NomeObjeto)
+    public String mostraEmOrdem(String NomeObjeto)
     {
         No<T> nos = raiz;
         String delt = "\n";//"\n";
@@ -337,48 +338,53 @@ public class ArvoreBinaria <T extends Comparable<T>>
             // Busca o valor no topo da pilha e retira
             nos = pilha.pop();
 
-            if (nos != null)
+            if (nos != null )
             {
-
-            if (Objects.equals(NomeObjeto, "Aluno")) {
-                Aluno aluno = (Aluno) nos.getValor();
-                retornoOrdem += "[Aluno; Matricula=";
-                retornoOrdem = retornoOrdem + aluno.getMatricula();
-                retornoOrdem += ";Nome=";
-                retornoOrdem = retornoOrdem + "'"+ aluno.getNome()+"'";
-                retornoOrdem += ";CursosCursados=";
-                retornoOrdem = retornoOrdem + "'"+ aluno.getCursoCursado() + "'";
-                retornoOrdem += "]";
-                retornoOrdem = retornoOrdem + delt;
-            }
-            if (Objects.equals(NomeObjeto, "Disciplina"))
-            {
-                Disciplina disciplina = (Disciplina) nos.getValor();
-                retornoOrdem += "[Disciplina; Matricula=";
-                retornoOrdem = retornoOrdem + disciplina.getMatricula();
-                retornoOrdem += ";Nome=";
-                retornoOrdem = retornoOrdem + "'"+disciplina.getNome()+"'";
-                retornoOrdem += ";PreRequisito=";
-                retornoOrdem = retornoOrdem +"'"+ disciplina.getPreRequisito()+"'";
-                retornoOrdem += ";CargaHoraria=";
-                retornoOrdem = retornoOrdem +disciplina.getCargaHoraria();
-                retornoOrdem += "]";
-                retornoOrdem = retornoOrdem + delt;
-            }
-            if (Objects.equals(NomeObjeto, "") || Objects.equals(NomeObjeto, null) )
-            {
-                No dadono = (No) nos.getValor();
-
-                retornoOrdem += "[";
-                retornoOrdem = retornoOrdem + dadono.getValor();
-                retornoOrdem += "]";
-                retornoOrdem = retornoOrdem + delt;
-            }
+	            if (Objects.equals(NomeObjeto, "Aluno")) {
+	                Aluno aluno = (Aluno) nos.getValor();
+	                if (aluno != null)
+	                {
+	                	    retornoOrdem += "[Aluno; Matricula=";
+                            retornoOrdem = retornoOrdem + aluno.getMatricula();
+                            retornoOrdem += ";Nome=";
+                            retornoOrdem = retornoOrdem + "'"+ aluno.getNome()+"'";
+                            retornoOrdem += ";CursosCursados=";
+                            retornoOrdem = retornoOrdem + "'"+ aluno.getCursoCursado() + "'";
+                            retornoOrdem += "]";
+                            retornoOrdem = retornoOrdem + delt;
+	                }
+	             
+	            }
+	            if (Objects.equals(NomeObjeto, "Disciplina"))
+	            {
+	                Disciplina disciplina = (Disciplina) nos.getValor();
+                    if (disciplina != null) {
+                        retornoOrdem += "[Disciplina; Matricula=";
+                        retornoOrdem = retornoOrdem + disciplina.getMatricula();
+                        retornoOrdem += ";Nome=";
+                        retornoOrdem = retornoOrdem + "'" + disciplina.getNome() + "'";
+                        retornoOrdem += ";PreRequisito=";
+                        retornoOrdem = retornoOrdem + "'" + disciplina.getPreRequisito() + "'";
+                        retornoOrdem += ";CargaHoraria=";
+                        retornoOrdem = retornoOrdem + disciplina.getCargaHoraria();
+                        retornoOrdem += "]";
+                        retornoOrdem = retornoOrdem + delt;
+                    }
+	            }
+	            if (Objects.equals(NomeObjeto, "") || Objects.equals(NomeObjeto, null) )
+	            {
+	                No dadono = (No) nos.getValor();
+	
+	                retornoOrdem += "[";
+	                retornoOrdem = retornoOrdem + dadono.getValor();
+	                retornoOrdem += "]";
+	                retornoOrdem = retornoOrdem + delt;
+	            }
             }
 
             nos = nos.getDireito();
         }
-        return retornoOrdem;
+        return retornoOrdem.replace("''''''", "'");
     }
 
     /**
@@ -454,7 +460,7 @@ public class ArvoreBinaria <T extends Comparable<T>>
         }
         //retornoNivel += "]";
         //retornoNivel = retornoNivel.replace("), ]", ")]");
-        return retornoNivel;
+        return retornoNivel.replace("''''''", "'");
     }
 
     /**
