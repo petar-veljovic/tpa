@@ -466,7 +466,7 @@ public class App < T > {
     {
     	System.out.println("\n\n\t%%%%% Visualizar Alunos\n\n");
     	System.out.println("\t      Lista de Alunos\n\n");
-    	System.out.println(AlunosPorMatricula.mostraEmOrdem("Aluno").replace("[Aluno;", "\t[Aluno;").replace(";", ";\t"));
+    	System.out.println(AlunosPorMatricula.mostraEmOrdem("Aluno").replace("[Aluno;", "\t[Aluno;").replace(";", "; "));
     	System.out.println("\t[OK] Visualizado alunos com sucesso!");
     }
     
@@ -474,7 +474,7 @@ public class App < T > {
     {
     	System.out.println("\n\n\t%%%%% Visualizar Disciplinas\n\n");
     	System.out.println("\t      Lista de Disciplinas\n\n");
-    	System.out.println(DisciplinasPorMatricula.mostraEmOrdem("Disciplina").replace("[Disciplina;", "\t[Disciplina;").replace(";", ";\t"));
+    	System.out.println(DisciplinasPorMatricula.mostraEmOrdem("Disciplina").replace("[Disciplina;", "\t[Disciplina;").replace(";", "; "));
     	System.out.println("\t[OK] Visualizado disciplinas com sucesso!");
     }
 
